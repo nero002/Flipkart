@@ -39,7 +39,7 @@ search_term = "Chimneys"
 driver_options = webdriver.ChromeOptions()
 #use to hide browser
 #driver_options.add_argument("--headless")
-driver = webdriver.Chrome('C:\\Users\\Dheeraj\\Desktop\\final\\chromedriver.exe', chrome_options=driver_options)
+driver = webdriver.Chrome(chrome_options=driver_options)
 driver.get(my_url)
 delay = 15 # seconds
 login_close_btn = driver.find_element_by_xpath("//button[text()='✕']")
