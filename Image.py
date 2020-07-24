@@ -11,6 +11,7 @@ from bs4 import BeautifulSoup as soup
 import requests
 import shutil
 import os
+import WebScrape_Flipkart
 # from imgscrape import imgscrape
 
 def download_image(product_name,my_url, file_location,img_index):
@@ -34,12 +35,27 @@ def get_product_urls(search_url):
     # driver_options.add_argument("--headless")
     driver = webdriver.Chrome(chrome_options=driver_options)
     # driver = webdriver.Chrome()
+    delay = 4
     driver.get(search_url)
 
-    containers = driver.find_elements_by_xpath("(//div[@class='_1HmYoV _35HD7C'])[2]//div[@class='_3liAhj']//a[@class='Zhf2z-']")
+    while(True):
+        containers = driver.find_elements_by_xpath("(//div[@class='_1HmYoV _35HD7C'])[2]//div[@class='_3liAhj']//a[@class='Zhf2z-']")
 
-    for container in containers:
-        download_all_images(container.get_attribute('href'))
+        for container in containers:
+            download_all_images(container.get_attribute('href'))
+
+        results = WebDriverWait(driver,delay).until(EC.presence_of_element_located((By.XPATH,"//div[@class='_1HmYoV _35HD7C'][2]")))
+
+        #scrolling till next page 
+        for i in range(1,int(driver.execute_script("return document.getElementsByClassName('_3fVaIS')[0].offsetTop")/100)):
+            WebScrape_Flipkart.wait_scroll(i,driver)
+
+        try:
+            next_btn = driver.find_element_by_xpath("//a//span[text()='Next']")
+            next_btn.click()
+        except Exception as e:
+            print(str(e))
+            break
 
 def download_all_images(url):
     driver_options = webdriver.ChromeOptions()
@@ -82,21 +98,8 @@ def download_all_images(url):
         download_image(product_name,image_url,os.path.join(os.getcwd(),'images'),i)
         sleep(0.1)
         #next btn for next page
-try:
-		# sleep(2)
-		results = WebDriverWait(driver,delay).until(EC.presence_of_element_located((By.XPATH,"//div[@class='_1HmYoV _35HD7C' and @style='flex-grow: 1; overflow: auto;']")))
-		# driver.execute_script("window.scrollTo(0, document.body.scrollHeight);"
-		#scrolling till next page 
-		for i in range(1,int(driver.execute_script("return document.getElementsByClassName('_3fVaIS')[0].offsetTop")/100)):
-			wait_scroll(i)
-
-    try:
-			next_btn = driver.find_element_by_xpath("//a//span[text()='Next']")
-			next_btn.click()
-	except Exception as e:
-			print(str(e))
-		break
-	
+    
+    
     driver.quit()
 
 
