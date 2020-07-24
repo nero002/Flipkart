@@ -90,10 +90,10 @@ try:
 		for i in range(1,int(driver.execute_script("return document.getElementsByClassName('_3fVaIS')[0].offsetTop")/100)):
 			wait_scroll(i)
 
-    try:
+try:
 			next_btn = driver.find_element_by_xpath("//a//span[text()='Next']")
 			next_btn.click()
-	except Exception as e:
+except Exception as e:
 			print(str(e))
 		break
 	
