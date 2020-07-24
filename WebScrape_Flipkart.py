@@ -15,7 +15,7 @@ import os
 # download your corresponding webdriver for your chrome browser from https://chromedriver.chromium.org/downloads
 
 # sroll for certain time to load img
-def wait_scroll(mult):
+def wait_scroll(mult,driver):
     scroll_by = mult*100
     sleep(0.05)
     driver.execute_script("window.scrollTo(0, "+str(scroll_by)+");")
@@ -69,7 +69,7 @@ if __name__ == "__main__":
             # driver.execute_script("window.scrollTo(0, document.body.scrollHeight);"
             #scrolling till next page 
             for i in range(1,int(driver.execute_script("return document.getElementsByClassName('_3fVaIS')[0].offsetTop")/100)):
-                wait_scroll(i)
+                wait_scroll(i,driver)
 
         #	temp = WebDriverWait(driver,delay).until(EC.presence_of_element_located((By.XPATH,"(//img[@class='_1Nyybr  _30XEf0' and contains(@src,'.jpeg')])[20]")))
             page_html = results.get_attribute("innerHTML")
