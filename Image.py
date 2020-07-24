@@ -89,7 +89,7 @@ def download_all_images(url):
         # driver.execute_script("window.scrollTo(0, document.body.scrollHeight);"
         #scrolling till next page 
         for i in range(1,int(driver.execute_script("return document.getElementsByClassName('_3fVaIS')[0].offsetTop")/100)):
-            wait_scroll(i)
+            WebScrape_Flipkart.wait_scroll(i)
     except:
         print("Error caused by incorrect scroll amount, exiting...")
         return None
