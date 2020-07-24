@@ -11,6 +11,7 @@ from bs4 import BeautifulSoup as soup
 import requests
 import shutil
 import os
+import WebScrape_Flipkart
 # from imgscrape import imgscrape
 
 def download_image(product_name,my_url, file_location,img_index):
@@ -82,21 +83,24 @@ def download_all_images(url):
         download_image(product_name,image_url,os.path.join(os.getcwd(),'images'),i)
         sleep(0.1)
         #next btn for next page
-try:
-		# sleep(2)
-		results = WebDriverWait(driver,delay).until(EC.presence_of_element_located((By.XPATH,"//div[@class='_1HmYoV _35HD7C' and @style='flex-grow: 1; overflow: auto;']")))
-		# driver.execute_script("window.scrollTo(0, document.body.scrollHeight);"
-		#scrolling till next page 
-		for i in range(1,int(driver.execute_script("return document.getElementsByClassName('_3fVaIS')[0].offsetTop")/100)):
-			wait_scroll(i)
+    try:
+        # sleep(2)
+        results = WebDriverWait(driver,delay).until(EC.presence_of_element_located((By.XPATH,"//div[@class='_1HmYoV _35HD7C' and @style='flex-grow: 1; overflow: auto;']")))
+        # driver.execute_script("window.scrollTo(0, document.body.scrollHeight);"
+        #scrolling till next page 
+        for i in range(1,int(driver.execute_script("return document.getElementsByClassName('_3fVaIS')[0].offsetTop")/100)):
+            wait_scroll(i)
+    except:
+        print("Error caused by incorrect scroll amount, exiting...")
+        return None
 
     try:
-			next_btn = driver.find_element_by_xpath("//a//span[text()='Next']")
-			next_btn.click()
-	except Exception as e:
-			print(str(e))
-		break
-	
+        next_btn = driver.find_element_by_xpath("//a//span[text()='Next']")
+        next_btn.click()
+    except Exception as e:
+        print(str(e))
+        return None
+    
     driver.quit()
 
 
