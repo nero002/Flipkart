@@ -111,5 +111,5 @@ def download_all_images(url):
 
 if __name__ =="__main__":
     # download_all_images(single_page_url)
-    get_product_urls(mythis doesnt owrlskngonj_url)
+    get_product_urls(my_url)
 
