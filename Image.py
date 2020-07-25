@@ -79,24 +79,30 @@ def download_all_images(url):
     try:
         img_line_driver = driver.find_element_by_xpath("//ul[@class='{}']".format(img_list_class))
         thumbnails = img_line_driver.find_elements_by_xpath("//li[@class='{}']".format(li_class))
-        print(len(thumbnails))
+        # print(len(thumbnails))
     except NoSuchElementException: 
         image_tag = driver.find_element_by_xpath("//img[contains(@class,'{}')]".format(image_class))
         image_url = image_tag.get_attribute('srcset').split(" ")[0]
-        print(image_url)
+        # print(image_url)
+        
         download_image(product_name,image_url,os.path.join(os.getcwd(),'images'),1)
         driver.quit()
+    
         return None
 
         
     for i,thumbnail in enumerate(thumbnails):
         hover = ActionChains(driver).move_to_element(thumbnail)
         hover.perform()
-        image_tag = driver.find_element_by_xpath("//img[contains(@class,'{}')]".format(image_class))
-        image_url = image_tag.get_attribute('srcset').split(" ")[0]
-        print(image_url)
-        download_image(product_name,image_url,os.path.join(os.getcwd(),'images'),i)
-        sleep(0.1)
+        try:
+            image_tag = driver.find_element_by_xpath("//img[contains(@class,'{}')]".format(image_class))
+            image_url = image_tag.get_attribute('srcset').split(" ")[0]
+            # print(image_url)
+            download_image(product_name,image_url,os.path.join(os.getcwd(),'images'),i)
+            sleep(0.1)
+        except:
+            print("Thumbnail was not of an image")
+
         #next btn for next page
     
     
